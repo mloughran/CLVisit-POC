@@ -7,16 +7,39 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
                             
     var window: UIWindow?
 
+    let locationManager = CLLocationManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Request permission to present notifications
+        let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        
+        // Request background location permissions and register for visit monitoring
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startMonitoringVisits()
+        
         return true
+    }
+    
+    func locationManager(manager: CLLocationManager!, didVisit visit: CLVisit!) {
+        showNotification("Visit: \(visit)")
+    }
+    
+    func showNotification(body: String) {
+        let notification = UILocalNotification()
+        notification.alertAction = nil
+        notification.alertBody = body
+        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }
 
     func applicationWillResignActive(application: UIApplication) {
