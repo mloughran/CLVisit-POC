@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     let locationManager = CLLocationManager()
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         // Request permission to present notifications
@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
     
-    func locationManager(manager: CLLocationManager!, didVisit visit: CLVisit!) {
+    func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
         showNotification("Visit: \(visit)")
     }
     
